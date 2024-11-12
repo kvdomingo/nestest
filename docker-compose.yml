@@ -1,0 +1,27 @@
+services:
+  api:
+    image: node:lts-alpine
+    restart: unless-stopped
+    init: true
+    entrypoint:
+      - /bin/sh
+      - -eu
+      - -c
+      - npm install && npm run start:debug
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+
+  db:
+    image: bitnami/postgresql:17.0.0-debian-12-r12
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - db-data:/bitnami/postgresql
+    ports:
+      - 5432:5432
+
+volumes:
+  db-data:
