@@ -1,13 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma.service";
+import { PrismaService } from "src/prisma/prisma.service";
 import { Prisma } from "@prisma/client";
+import { CreateCatDto } from "./dto/create-cat.dto";
+import { UpdateCatDto } from "./dto/update-cat.dto";
 
 @Injectable()
 export class CatService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: Prisma.CatCreateInput) {
-    return this.prisma.cat.create({ data });
+  create(createCatDto: CreateCatDto) {
+    return this.prisma.cat.create({ data: createCatDto });
   }
 
   findAll(params: {
@@ -33,8 +35,8 @@ export class CatService {
     });
   }
 
-  update(id: string, data: Prisma.CatUpdateInput) {
-    return this.prisma.cat.update({ data, where: { id } });
+  update(id: string, updateCatDto: UpdateCatDto) {
+    return this.prisma.cat.update({ data: updateCatDto, where: { id } });
   }
 
   remove(id: string) {
